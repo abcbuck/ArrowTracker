@@ -26,18 +26,11 @@ jobs:
       run: |
         cd ${{ needs.compile.outputs.project-name }}-windows-latest
         7z a -mmt4 -mx9 ../${{ needs.compile.outputs.project-name }}-Windows.7z ${{ needs.compile.outputs.project-name }}.exe
-        cd ../${{ needs.compile.outputs.project-name }}-ubuntu-latest
-        7z a -mmt4 -mx9 ../${{ needs.compile.outputs.project-name }}-Linux.7z ${{ needs.compile.outputs.project-name }}
-        cd ../${{ needs.compile.outputs.project-name }}-macos-latest
-        7z a -mmt4 -mx9 ../${{ needs.compile.outputs.project-name }}-macOS.7z ${{ needs.compile.outputs.project-name }}
 
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
         name: Executables
         tag_name: ${{ inputs.tag }}
-        files: |
-          ${{ needs.compile.outputs.project-name }}-Windows.7z
-          ${{ needs.compile.outputs.project-name }}-Linux.7z
-          ${{ needs.compile.outputs.project-name }}-macOS.7z
+        files: ${{ needs.compile.outputs.project-name }}-Windows.7z
         make_latest: true
